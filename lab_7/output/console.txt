@@ -1,14 +1,107 @@
 === Шаг 1. Загрузка набора данных Oxford-IIIT Pet ===
-Скачивание масок сегментации (около 19 МБ)...
-  загружено 5%
-  загружено 10%
-  загружено 21%
-  загружено 32%
-  загружено 43%
-  загружено 54%
-  загружено 60%
-  загружено 71%
-  загружено 82%
-  загружено 92%
-  загружено 100%
-Распаковка масок...
+Скачивание images.tar.gz ...
+Распаковка images.tar.gz ...
+Скачивание annotations.tar.gz ...
+Распаковка annotations.tar.gz ...
+Загружено изображений: 7349
+
+=== Шаг 2. Приведение изображений и масок к одному размеру ===
+Размер изображения: (128, 128, 3), размер маски: (128, 128)
+Классы: 0 - фон, 1 - животное. Доля пикселей животного: 41.3%
+
+=== Шаг 3. Разделение на обучающую и тестовую выборки ===
+Обучающая выборка: 3680, тестовая выборка: 3669
+
+=== Шаг 4. Выбор архитектуры: U-Net ===
+UNet(
+  (e1): Sequential(
+    (0): Conv2d(3, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)
+    (2): ReLU(inplace=True)
+    (3): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (4): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)
+    (5): ReLU(inplace=True)
+  )
+  (e2): Sequential(
+    (0): Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)
+    (2): ReLU(inplace=True)
+    (3): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)
+    (5): ReLU(inplace=True)
+  )
+  (e3): Sequential(
+    (0): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)
+    (2): ReLU(inplace=True)
+    (3): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (4): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)
+    (5): ReLU(inplace=True)
+  )
+  (mid): Sequential(
+    (0): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)
+    (2): ReLU(inplace=True)
+    (3): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)
+    (5): ReLU(inplace=True)
+  )
+  (u3): ConvTranspose2d(128, 64, kernel_size=(2, 2), stride=(2, 2))
+  (d3): Sequential(
+    (0): Conv2d(128, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)
+    (2): ReLU(inplace=True)
+    (3): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (4): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)
+    (5): ReLU(inplace=True)
+  )
+  (u2): ConvTranspose2d(64, 32, kernel_size=(2, 2), stride=(2, 2))
+  (d2): Sequential(
+    (0): Conv2d(64, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)
+    (2): ReLU(inplace=True)
+    (3): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)
+    (5): ReLU(inplace=True)
+  )
+  (u1): ConvTranspose2d(32, 16, kernel_size=(2, 2), stride=(2, 2))
+  (d1): Sequential(
+    (0): Conv2d(32, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)
+    (2): ReLU(inplace=True)
+    (3): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (4): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)
+    (5): ReLU(inplace=True)
+  )
+  (out): Conv2d(16, 1, kernel_size=(1, 1), stride=(1, 1))
+)
+Число параметров: 483,441
+Устройство: cpu
+
+=== Шаг 5. Обучение модели ===
+Эпоха  1/10: loss = 0.4747, IoU (тест) = 0.605, время 56 с
+Эпоха  2/10: loss = 0.3388, IoU (тест) = 0.698, время 67 с
+Эпоха  3/10: loss = 0.2937, IoU (тест) = 0.728, время 54 с
+Эпоха  4/10: loss = 0.2698, IoU (тест) = 0.678, время 65 с
+Эпоха  5/10: loss = 0.2526, IoU (тест) = 0.753, время 50 с
+Эпоха  6/10: loss = 0.2354, IoU (тест) = 0.761, время 75 с
+Эпоха  7/10: loss = 0.2317, IoU (тест) = 0.766, время 55 с
+Эпоха  8/10: loss = 0.2214, IoU (тест) = 0.750, время 52 с
+Эпоха  9/10: loss = 0.2132, IoU (тест) = 0.785, время 52 с
+Эпоха 10/10: loss = 0.2061, IoU (тест) = 0.778, время 52 с
+
+=== Шаг 6. Оценка качества модели ===
+Класс "животное": IoU = 0.806, Dice = 0.892
+Класс "фон":      IoU = 0.847, Dice = 0.917
+Средний IoU (mIoU) = 0.826, средний Dice = 0.905
+Точность по пикселям = 0.906
+
+=== Шаг 7. Примеры сегментации ===
+Изображение № 5: IoU = 0.538, Dice = 0.700
+Изображение № 250: IoU = 0.899, Dice = 0.947
+Изображение № 700: IoU = 0.800, Dice = 0.889
+Изображение № 1200: IoU = 0.743, Dice = 0.853
+Изображение № 1900: IoU = 0.967, Dice = 0.983
+Изображение № 3000: IoU = 0.941, Dice = 0.970
+
+Готово. Результаты сохранены в папке output
